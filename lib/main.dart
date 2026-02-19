@@ -30,8 +30,19 @@ class MainMenuScreen extends StatelessWidget {
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
+          // Gradient background
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              Colors.blue.shade900,
+              Colors.purple.shade800,
+              Colors.deepPurple.shade900,
+            ],
+          ),
+          // Optional: Add a subtle pattern overlay
           image: DecorationImage(
-            image: AssetImage('assets/images/game_nest_menu_games.png'),
+            image: AssetImage('assets/images/bg_game_nest_main.png'),
             fit: BoxFit.cover,
           ),
         ),
@@ -39,43 +50,40 @@ class MainMenuScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // App Title
-              const Text(
-                'Game Nest',
-                style: TextStyle(
-                  fontSize: 48,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                  shadows: [
-                    Shadow(
-                      blurRadius: 10,
-                      color: Colors.black54,
-                      offset: Offset(2, 2),
+              const SizedBox(height: 60),
+
+              // Games Button with glow effect
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.blue.withOpacity(0.5),
+                      blurRadius: 20,
+                      spreadRadius: 2,
                     ),
                   ],
                 ),
-              ),
-              const SizedBox(height: 60),
-
-              // Games Button
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const GameHubHome()),
-                  );
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue,
-                  foregroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15),
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const GameHubHome()),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blue,
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    elevation: 10,
                   ),
-                ),
-                child: const Text(
-                  'Games',
-                  style: TextStyle(fontSize: 24),
+                  child: const Text(
+                    'Games',
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                  ),
                 ),
               ),
             ],
