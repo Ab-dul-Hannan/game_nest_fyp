@@ -11,8 +11,8 @@ class GameHubHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // Remove the AppBar and create a custom header
       body: Container(
-        padding: const EdgeInsets.only(top: 60),
         decoration: BoxDecoration(
           image: DecorationImage(
             image: AssetImage('assets/images/game_nest_menu_games.png'),
@@ -20,55 +20,103 @@ class GameHubHome extends StatelessWidget {
           ),
         ),
         child: SafeArea(
-          child: GridView.count(
-            padding: const EdgeInsets.all(16),
-            crossAxisCount: 2,
-            crossAxisSpacing: 16,
-            mainAxisSpacing: 16,
+          child: Column(
             children: [
-              GameCard(
-                title: 'Tic Tac Toe',
-                icon: Icons.grid_3x3,
-                color: Colors.blue,
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const TicTacToeGame()),
+              // Custom header with back button and title
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                child: Row(
+                  children: [
+                    // Game List title (now on the left)
+                    const Text(
+                      'Game List',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 24,
+                        shadows: [
+                          Shadow(
+                            blurRadius: 10,
+                            color: Colors.black54,
+                            offset: Offset(2, 2),
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    // Spacer pushes the button to the right
+                    const Spacer(),
+
+                    // Back button (now on the right)
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.black.withOpacity(0.3),
+                        shape: BoxShape.circle,
+                      ),
+                      child: IconButton(
+                        icon: const Icon(Icons.arrow_back, color: Colors.white),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              GameCard(
-                title: 'Memory Match',
-                icon: Icons.style,
-                color: Colors.green,
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const MemoryMatchGame()),
-                ),
-              ),
-              GameCard(
-                title: 'Connect 4',
-                icon: Icons.circle,
-                color: Colors.orange,
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const ConnectFourGame()),
-                ),
-              ),
-              GameCard(
-                title: 'Snake',
-                icon: Icons.bolt,
-                color: Colors.purple,
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const SnakeGame()),
-                ),
-              ),
-              GameCard(
-                title: 'Hangman',
-                icon: Icons.abc,
-                color: Colors.red,
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const HangmanGame()),
+              // Game grid
+              Expanded(
+                child: GridView.count(
+                  padding: const EdgeInsets.all(16),
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 16,
+                  mainAxisSpacing: 16,
+                  children: [
+                    GameCard(
+                      title: 'Tic Tac Toe',
+                      icon: Icons.grid_3x3,
+                      color: Colors.blue,
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const TicTacToeGame()),
+                      ),
+                    ),
+                    GameCard(
+                      title: 'Memory Match',
+                      icon: Icons.style,
+                      color: Colors.green,
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const MemoryMatchGame()),
+                      ),
+                    ),
+                    GameCard(
+                      title: 'Connect 4',
+                      icon: Icons.circle,
+                      color: Colors.orange,
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const ConnectFourGame()),
+                      ),
+                    ),
+                    GameCard(
+                      title: 'Snake',
+                      icon: Icons.bolt,
+                      color: Colors.purple,
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const SnakeGame()),
+                      ),
+                    ),
+                    GameCard(
+                      title: 'Hangman',
+                      icon: Icons.abc,
+                      color: Colors.red,
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const HangmanGame()),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],
