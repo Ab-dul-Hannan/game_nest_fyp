@@ -108,8 +108,15 @@ class _MemoryMatchGameState extends State<MemoryMatchGame> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
-        title: const Text('Memory Match'),
+        title: const Text(
+          'Memory Match',
+          style: TextStyle(color: Colors.black),
+        ),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        iconTheme: const IconThemeData(color: Colors.black),
         actions: [
           IconButton(
             icon: const Icon(Icons.refresh),
@@ -117,53 +124,71 @@ class _MemoryMatchGameState extends State<MemoryMatchGame> {
           ),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: Text(
-                'Matches: $matchedPairs / 8',
-                style: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-            Expanded(
-              child: GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 4,
-                  crossAxisSpacing: 8,
-                  mainAxisSpacing: 8,
-                ),
-                itemCount: 16,
-                itemBuilder: (context, index) {
-                  return GestureDetector(
-                    onTap: () => onCardTap(index),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: cards[index].isFlipped || cards[index].isMatched
-                            ? Colors.white
-                            : Colors.blue,
-                        borderRadius: BorderRadius.circular(8),
-                        border: Border.all(color: Colors.grey),
-                      ),
-                      child: Center(
-                        child: Text(
-                          cards[index].isFlipped || cards[index].isMatched
-                              ? cards[index].emoji
-                              : '❓',
-                          style: const TextStyle(fontSize: 30),
-                        ),
-                      ),
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/images/bg_game_nest_3.png'),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(16),
+                  margin: const EdgeInsets.symmetric(vertical: 8),
+                  decoration: BoxDecoration(
+                      color: Colors.white.withAlpha(128),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Text(
+                    'Matches: $matchedPairs / 8',
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
                     ),
-                  );
-                },
-              ),
+                  ),
+                ),
+                Expanded(
+                  child: GridView.builder(
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 4,
+                      crossAxisSpacing: 8,
+                      mainAxisSpacing: 8,
+                    ),
+                    itemCount: 16,
+                    itemBuilder: (context, index) {
+                      return GestureDetector(
+                        onTap: () => onCardTap(index),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: cards[index].isFlipped || cards[index].isMatched
+                                ? Colors.white
+                                : Colors.blue,
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(color: Colors.grey),
+                          ),
+                          child: Center(
+                            child: Text(
+                              cards[index].isFlipped || cards[index].isMatched
+                                  ? cards[index].emoji
+                                  : '❔',
+                              style: const TextStyle(fontSize: 30),
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );

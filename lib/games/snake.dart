@@ -120,8 +120,15 @@ class _SnakeGameState extends State<SnakeGame> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
-        title: const Text('Snake'),
+        title: const Text(
+          'Snake',
+          style: TextStyle(color: Colors.black),
+        ),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        iconTheme: const IconThemeData(color: Colors.black),
         actions: [
           IconButton(
             icon: const Icon(Icons.refresh),
@@ -129,102 +136,133 @@ class _SnakeGameState extends State<SnakeGame> {
           ),
         ],
       ),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Score: $score',
-                  style: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                ElevatedButton(
-                  onPressed: isGameStarted
-                      ? null
-                      : () {
-                    setState(() {
-                      isGameStarted = true;
-                    });
-                    startGameLoop();
-                  },
-                  child: Text(isGameStarted ? 'Playing...' : 'Start Game'),
-                ),
-              ],
-            ),
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/images/bg_game_nest_4.png'),
+            fit: BoxFit.cover,
           ),
-          Expanded(
-            child: Center(
-              child: Container(
-                width: 300,
-                height: 300,
-                decoration: BoxDecoration(
-                  color: Colors.grey[200],
-                  border: Border.all(color: Colors.black),
-                ),
-                child: GridView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: gridSize,
+        ),
+        child: SafeArea(
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(16),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withAlpha(180),
+                    borderRadius: BorderRadius.circular(20),
                   ),
-                  itemCount: gridSize * gridSize,
-                  itemBuilder: (context, index) {
-                    int x = index % gridSize;
-                    int y = index ~/ gridSize;
-                    Point point = Point(x, y);
-
-                    if (snake.contains(point)) {
-                      return Container(
-                        color: Colors.green,
-                        child: point == snake[0]
-                            ? const Center(
-                          child: Icon(
-                            Icons.circle,
-                            color: Colors.white,
-                            size: 10,
-                          ),
-                        )
-                            : null,
-                      );
-                    } else if (food == point) {
-                      return Container(
-                        color: Colors.red,
-                      );
-                    } else {
-                      return Container(
-                        color: Colors.grey[300],
-                        child: Container(
-                          margin: const EdgeInsets.all(1),
-                          color: Colors.white,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Score: $score',
+                        style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
                         ),
-                      );
-                    }
-                  },
+                      ),
+                      ElevatedButton(
+                        onPressed: isGameStarted
+                            ? null
+                            : () {
+                          setState(() {
+                            isGameStarted = true;
+                          });
+                          startGameLoop();
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blue,
+                          foregroundColor: Colors.white,
+                        ),
+                        child: Text(isGameStarted ? 'Playing...' : 'Start Game'),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ),
-          if (isGameStarted)
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  _buildDirectionButton(Icons.arrow_upward, 'up'),
-                  const SizedBox(width: 8),
-                  _buildDirectionButton(Icons.arrow_downward, 'down'),
-                  const SizedBox(width: 8),
-                  _buildDirectionButton(Icons.arrow_back, 'left'),
-                  const SizedBox(width: 8),
-                  _buildDirectionButton(Icons.arrow_forward, 'right'),
-                ],
+              Expanded(
+                child: Center(
+                  child: Container(
+                    width: 300,
+                    height: 300,
+                    decoration: BoxDecoration(
+                      color: Colors.grey[200],
+                      border: Border.all(color: Colors.black),
+                    ),
+                    child: GridView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: gridSize,
+                      ),
+                      itemCount: gridSize * gridSize,
+                      itemBuilder: (context, index) {
+                        int x = index % gridSize;
+                        int y = index ~/ gridSize;
+                        Point point = Point(x, y);
+
+                        if (snake.contains(point)) {
+                          return Container(
+                            color: Colors.green,
+                            child: point == snake[0]
+                                ? const Center(
+                              child: Icon(
+                                Icons.circle,
+                                color: Colors.white,
+                                size: 10,
+                              ),
+                            )
+                                : null,
+                          );
+                        } else if (food == point) {
+                          return Container(
+                            color: Colors.red,
+                          );
+                        } else {
+                          return Container(
+                            color: Colors.grey[300],
+                            child: Container(
+                              margin: const EdgeInsets.all(1),
+                              color: Colors.white,
+                            ),
+                          );
+                        }
+                      },
+                    ),
+                  ),
+                ),
               ),
-            ),
-        ],
+              if (isGameStarted)
+                Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withAlpha(180),
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        _buildDirectionButton(Icons.arrow_upward, 'up'),
+                        const SizedBox(width: 8),
+                        _buildDirectionButton(Icons.arrow_downward, 'down'),
+                        const SizedBox(width: 8),
+                        _buildDirectionButton(Icons.arrow_back, 'left'),
+                        const SizedBox(width: 8),
+                        _buildDirectionButton(Icons.arrow_forward, 'right'),
+                      ],
+                    ),
+                  ),
+                ),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -241,6 +279,10 @@ class _SnakeGameState extends State<SnakeGame> {
           }
         });
       },
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.blue,
+        foregroundColor: Colors.white,
+      ),
       child: Icon(icon),
     );
   }

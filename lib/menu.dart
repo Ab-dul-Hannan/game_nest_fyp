@@ -15,7 +15,7 @@ class GameHubHome extends StatelessWidget {
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/images/game_nest_menu_games.png'),
+            image: AssetImage('assets/images/bg_game_nest_6.png'),
             fit: BoxFit.cover,
           ),
         ),

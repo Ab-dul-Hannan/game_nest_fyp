@@ -102,8 +102,15 @@ class _ConnectFourGameState extends State<ConnectFourGame> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
-        title: const Text('Connect Four'),
+        title: const Text(
+          'Connect Four',
+          style: TextStyle(color: Colors.black), // Changed to black
+        ),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        iconTheme: const IconThemeData(color: Colors.black), // Changed icons to black
         actions: [
           IconButton(
             icon: const Icon(Icons.refresh),
@@ -111,77 +118,85 @@ class _ConnectFourGameState extends State<ConnectFourGame> {
           ),
         ],
       ),
-      body: LayoutBuilder(
-        builder: (context, constraints) {
-          double cellSize = constraints.maxWidth / (cols + 2);
-          cellSize = cellSize.clamp(30, 45);
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/images/bg_game_nest_1.png'),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            double cellSize = constraints.maxWidth / (cols + 2);
+            cellSize = cellSize.clamp(30, 45);
 
-          return SingleChildScrollView(
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  if (winner.isNotEmpty)
-                    Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: Text(
-                        winner == 'Draw' ? "It's a Draw!" : 'Winner: $winner',
-                        style: const TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
+            return SafeArea(
+              child: SingleChildScrollView(
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      if (winner.isNotEmpty)
+                        Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: Text(
+                            winner == 'Draw' ? "It's a Draw!" : 'Winner: $winner',
+                            style: const TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black, // Changed to black
+                            ),
+                          ),
+                        )
+                      else
+                        Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: Text(
+                            "Current Player: $currentPlayer",
+                            style: const TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black, // Changed to black
+                            ),
+                          ),
                         ),
-                      ),
-                    )
-                  else
-                    Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: Text(
-                        "Current Player: $currentPlayer",
-                        style: const TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: Colors.blue,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Column(
-                      children: List.generate(rows, (row) {
-                        return Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: List.generate(cols, (col) {
-                            return GestureDetector(
-                              onTap: () => dropPiece(col),
-                              child: Container(
-                                width: cellSize,
-                                height: cellSize,
-                                margin: const EdgeInsets.all(2),
-                                decoration: BoxDecoration(
-                                  color: board[row][col].isEmpty
-                                      ? Colors.white
-                                      : board[row][col] == '🔴'
-                                      ? Colors.red
-                                      : Colors.yellow,
-                                  shape: BoxShape.circle,
-                                  border: Border.all(color: Colors.black, width: 2),
+                      // Removed the blue background container, now just the game board
+                      Column(
+                        children: List.generate(rows, (row) {
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: List.generate(cols, (col) {
+                              return GestureDetector(
+                                onTap: () => dropPiece(col),
+                                child: Container(
+                                  width: cellSize,
+                                  height: cellSize,
+                                  margin: const EdgeInsets.all(2),
+                                  decoration: BoxDecoration(
+                                    color: board[row][col].isEmpty
+                                        ? Colors.white
+                                        : board[row][col] == '🔴'
+                                        ? Colors.red
+                                        : Colors.yellow,
+                                    shape: BoxShape.circle,
+                                    border: Border.all(color: Colors.black, width: 2),
+                                  ),
                                 ),
-                              ),
-                            );
-                          }),
-                        );
-                      }),
-                    ),
+                              );
+                            }),
+                          );
+                        }),
+                      ),
+                      const SizedBox(height: 20),
+                    ],
                   ),
-                  const SizedBox(height: 20),
-                ],
+                ),
               ),
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
     );
   }

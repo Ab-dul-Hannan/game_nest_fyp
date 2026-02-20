@@ -64,8 +64,15 @@ class _TicTacToeGameState extends State<TicTacToeGame> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
-        title: const Text('Tic Tac Toe'),
+        title: const Text(
+          'Tic Tac Toe',
+          style: TextStyle(color: Colors.black),
+        ),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        iconTheme: const IconThemeData(color: Colors.black),
         actions: [
           IconButton(
             icon: const Icon(Icons.refresh),
@@ -73,62 +80,87 @@ class _TicTacToeGameState extends State<TicTacToeGame> {
           ),
         ],
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            if (winner.isNotEmpty)
-              Padding(
-                padding: const EdgeInsets.all(16),
-                child: Text(
-                  winner == 'Draw' ? "It's a Draw!" : 'Winner: $winner',
-                  style: const TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/images/bg_game_nest_7.png'),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: SafeArea(
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+                  margin: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withAlpha(180),
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  child: winner.isNotEmpty
+                      ? Text(
+                    winner == 'Draw' ? "It's a Draw!" : 'Winner: $winner',
+                    style: const TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
+                  )
+                      : Text(
+                    "Current Player: $currentPlayer",
+                    style: const TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
                   ),
                 ),
-              )
-            else
-              Padding(
-                padding: const EdgeInsets.all(16),
-                child: Text(
-                  "Current Player: $currentPlayer",
-                  style: const TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
+                Container(
+                  width: 300,
+                  height: 300,
+                  decoration: BoxDecoration(
+                    color: Colors.white.withAlpha(200),
+                    borderRadius: BorderRadius.circular(12),
                   ),
-                ),
-              ),
-            Container(
-              width: 300,
-              height: 300,
-              child: GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
-                ),
-                itemCount: 9,
-                itemBuilder: (context, index) {
-                  return GestureDetector(
-                    onTap: () => playMove(index),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.grey),
-                      ),
-                      child: Center(
-                        child: Text(
-                          board[index],
-                          style: const TextStyle(
-                            fontSize: 40,
-                            fontWeight: FontWeight.bold,
+                  child: GridView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3,
+                    ),
+                    itemCount: 9,
+                    itemBuilder: (context, index) {
+                      return GestureDetector(
+                        onTap: () => playMove(index),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.black26),
+                          ),
+                          child: Center(
+                            child: Text(
+                              board[index],
+                              style: TextStyle(
+                                fontSize: 40,
+                                fontWeight: FontWeight.bold,
+                                color: board[index] == 'X'
+                                    ? Colors.blue
+                                    : board[index] == 'O'
+                                    ? Colors.red
+                                    : Colors.black,
+                              ),
+                            ),
                           ),
                         ),
-                      ),
-                    ),
-                  );
-                },
-              ),
+                      );
+                    },
+                  ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
