@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'music_service.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -34,20 +35,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
               decoration: BoxDecoration(
                 color: Colors.white.withOpacity(0.9),
                 borderRadius: BorderRadius.circular(20),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.3),
-                    blurRadius: 10,
-                    spreadRadius: 2,
-                    offset: const Offset(0, 5),
-                  ),
-                ],
               ),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  /// Settings Header
+
                   const Center(
                     child: Text(
                       "Music Settings",
@@ -61,16 +54,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
                   const SizedBox(height: 30),
 
-                  /// 🎵 Enable Music
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       const Text(
                         "Enable Music",
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500,
-                        ),
+                        style: TextStyle(fontSize: 18),
                       ),
                       Switch(
                         value: _musicEnabled,
@@ -79,6 +68,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           setState(() {
                             _musicEnabled = value;
                           });
+
+                          if (!value) {
+                            MusicService.setVolume(0);
+                          } else {
+                            MusicService.setVolume(_musicVolume);
+                          }
                         },
                       ),
                     ],
@@ -86,13 +81,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
                   const SizedBox(height: 20),
 
-                  /// 🔊 Volume Slider
                   const Text(
                     "Music Volume",
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w500,
-                    ),
+                    style: TextStyle(fontSize: 18),
                   ),
 
                   const SizedBox(height: 10),
@@ -103,25 +94,25 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     max: 1.0,
                     divisions: 10,
                     activeColor: Colors.blue,
-                    inactiveColor: Colors.blue.withOpacity(0.3),
                     label: "${(_musicVolume * 100).round()}%",
                     onChanged: _musicEnabled
                         ? (value) {
                       setState(() {
                         _musicVolume = value;
                       });
+
+                      MusicService.setVolume(value);
                     }
                         : null,
                   ),
 
-                  const SizedBox(height: 5),
+                  const SizedBox(height: 10),
 
                   Center(
                     child: Text(
                       "Volume: ${(_musicVolume * 100).round()}%",
                       style: const TextStyle(
                         fontSize: 18,
-                        fontWeight: FontWeight.w500,
                         color: Colors.blue,
                       ),
                     ),
@@ -129,30 +120,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
                   const SizedBox(height: 20),
 
-                  /// Back Button
                   Center(
                     child: ElevatedButton(
                       onPressed: () {
                         Navigator.pop(context);
                       },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.blue,
-                        foregroundColor: Colors.white,
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 40,
-                          vertical: 15,
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
-                      child: const Text(
-                        'Back to Menu',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+                      child: const Text("Back to Menu"),
                     ),
                   ),
                 ],

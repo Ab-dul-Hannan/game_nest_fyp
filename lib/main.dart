@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'menu.dart';
 import 'settings.dart';
+import 'music_service.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await MusicService.init();
   runApp(const GameNestApp());
 }
 
@@ -39,7 +42,6 @@ class MainMenuScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              /// Adding top padding to move buttons down
               const SizedBox(height: 100),
 
               /// 🎮 Games Button
@@ -74,7 +76,7 @@ class MainMenuScreen extends StatelessWidget {
 
               const SizedBox(height: 30),
 
-              /// ⚙️ Settings Button - Color changed to orange
+              /// ⚙️ Settings Button
               ElevatedButton(
                 onPressed: () {
                   Navigator.push(
