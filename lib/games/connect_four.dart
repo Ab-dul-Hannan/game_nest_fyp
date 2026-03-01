@@ -33,35 +33,30 @@ class _ConnectFourGameState extends State<ConnectFourGame> {
   }
 
   void checkWinner(int row, int col) {
-    // Check horizontal
     if (checkDirection(row, col, 0, 1) + checkDirection(row, col, 0, -1) >= 3) {
       winner = currentPlayer;
       isGameOver = true;
       return;
     }
 
-    // Check vertical
     if (checkDirection(row, col, 1, 0) >= 3) {
       winner = currentPlayer;
       isGameOver = true;
       return;
     }
 
-    // Check diagonal (down-right)
     if (checkDirection(row, col, 1, 1) + checkDirection(row, col, -1, -1) >= 3) {
       winner = currentPlayer;
       isGameOver = true;
       return;
     }
 
-    // Check diagonal (down-left)
     if (checkDirection(row, col, 1, -1) + checkDirection(row, col, -1, 1) >= 3) {
       winner = currentPlayer;
       isGameOver = true;
       return;
     }
 
-    // Check for draw
     bool isDraw = true;
     for (int r = 0; r < rows; r++) {
       for (int c = 0; c < cols; c++) {
@@ -106,11 +101,11 @@ class _ConnectFourGameState extends State<ConnectFourGame> {
       appBar: AppBar(
         title: const Text(
           'Connect Four',
-          style: TextStyle(color: Colors.black), // Changed to black
+          style: TextStyle(color: Colors.black),
         ),
         backgroundColor: Colors.transparent,
         elevation: 0,
-        iconTheme: const IconThemeData(color: Colors.black), // Changed icons to black
+        iconTheme: const IconThemeData(color: Colors.black),
         actions: [
           IconButton(
             icon: const Icon(Icons.refresh),
@@ -146,7 +141,7 @@ class _ConnectFourGameState extends State<ConnectFourGame> {
                             style: const TextStyle(
                               fontSize: 24,
                               fontWeight: FontWeight.bold,
-                              color: Colors.black, // Changed to black
+                              color: Colors.black,
                             ),
                           ),
                         )
@@ -158,11 +153,10 @@ class _ConnectFourGameState extends State<ConnectFourGame> {
                             style: const TextStyle(
                               fontSize: 24,
                               fontWeight: FontWeight.bold,
-                              color: Colors.black, // Changed to black
+                              color: Colors.black,
                             ),
                           ),
                         ),
-                      // Removed the blue background container, now just the game board
                       Column(
                         children: List.generate(rows, (row) {
                           return Row(

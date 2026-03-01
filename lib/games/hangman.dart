@@ -166,7 +166,6 @@ class _HangmanGameState extends State<HangmanGame> {
                   ),
                 ),
 
-                // Hint Section - Modified to show full text
                 Container(
                   margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),

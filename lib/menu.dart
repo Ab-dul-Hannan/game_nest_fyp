@@ -5,13 +5,12 @@ import 'games/connect_four.dart';
 import 'games/snake.dart';
 import 'games/hangman.dart';
 
-class GameHubHome extends StatelessWidget {
-  const GameHubHome({super.key});
+class GameNestHome extends StatelessWidget {
+  const GameNestHome({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // Remove the AppBar and create a custom header
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
@@ -22,12 +21,10 @@ class GameHubHome extends StatelessWidget {
         child: SafeArea(
           child: Column(
             children: [
-              // Custom header with back button and title
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 child: Row(
                   children: [
-                    // Game List title (now on the left)
                     const Text(
                       'Game List',
                       style: TextStyle(
@@ -44,10 +41,8 @@ class GameHubHome extends StatelessWidget {
                       ),
                     ),
 
-                    // Spacer pushes the button to the right
                     const Spacer(),
 
-                    // Back button (now on the right)
                     Container(
                       decoration: BoxDecoration(
                         color: Colors.black.withOpacity(0.3),
@@ -63,7 +58,6 @@ class GameHubHome extends StatelessWidget {
                   ],
                 ),
               ),
-              // Game grid
               Expanded(
                 child: GridView.count(
                   padding: const EdgeInsets.all(16),
