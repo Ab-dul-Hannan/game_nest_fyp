@@ -4,6 +4,7 @@ import 'games/memory_match.dart';
 import 'games/connect_four.dart';
 import 'games/snake.dart';
 import 'games/hangman.dart';
+import 'games/personalpuzzle.dart';
 
 class GameNestHome extends StatelessWidget {
   const GameNestHome({super.key});
@@ -108,6 +109,17 @@ class GameNestHome extends StatelessWidget {
                       onTap: () => Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => const HangmanGame()),
+                      ),
+                    ),
+                    GameCard(
+                      title: 'Personal Puzzle',
+                      icon: Icons.rocket_launch,
+                      color: Colors.teal,
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const PersonalPuzzleGame(),
+                        ),
                       ),
                     ),
                   ],
