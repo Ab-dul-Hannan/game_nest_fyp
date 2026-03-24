@@ -17,6 +17,8 @@ class _SnakeGameState extends State<SnakeGame> {
   bool isGameStarted = false;
   int score = 0;
 
+  int gameSpeed = 200;
+
   @override
   void initState() {
     super.initState();
@@ -71,6 +73,7 @@ class _SnakeGameState extends State<SnakeGame> {
       if (newHead == food) {
         score += 10;
         generateNewFood();
+        if (gameSpeed > 80) gameSpeed -= 5;
       } else {
         snake.removeLast();
       }
@@ -87,6 +90,7 @@ class _SnakeGameState extends State<SnakeGame> {
       context: context,
       barrierDismissible: false,
       builder: (context) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         title: const Text('Game Over!'),
         content: Text('Your Score: $score'),
         actions: [
@@ -113,7 +117,23 @@ class _SnakeGameState extends State<SnakeGame> {
       isGameOver = false;
       isGameStarted = false;
       score = 0;
+      gameSpeed = 200;
       generateNewFood();
+    });
+  }
+
+  void handleSwipeUpdate(DragUpdateDetails details) {
+    final dx = details.delta.dx;
+    final dy = details.delta.dy;
+
+    setState(() {
+      if (dx.abs() > dy.abs()) {
+        if (dx > 0 && direction != 'left') direction = 'right';
+        if (dx < 0 && direction != 'right') direction = 'left';
+      } else {
+        if (dy > 0 && direction != 'up') direction = 'down';
+        if (dy < 0 && direction != 'down') direction = 'up';
+      }
     });
   }
 
@@ -122,18 +142,12 @@ class _SnakeGameState extends State<SnakeGame> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        title: const Text(
-          'Snake',
-          style: TextStyle(color: Colors.black),
-        ),
+        title: const Text('Snake', style: TextStyle(color: Colors.black)),
         backgroundColor: Colors.transparent,
         elevation: 0,
         iconTheme: const IconThemeData(color: Colors.black),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.refresh),
-            onPressed: resetGame,
-          ),
+          IconButton(icon: const Icon(Icons.refresh), onPressed: resetGame),
         ],
       ),
       body: Container(
@@ -150,116 +164,100 @@ class _SnakeGameState extends State<SnakeGame> {
             children: [
               Padding(
                 padding: const EdgeInsets.all(16),
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                  decoration: BoxDecoration(
-                    color: Colors.white.withAlpha(180),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
+                      decoration: BoxDecoration(
+                        color: Colors.black.withAlpha(160),
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      child: Text(
                         'Score: $score',
-                        style: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                        ),
+                        style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
                       ),
-                      ElevatedButton(
-                        onPressed: isGameStarted
-                            ? null
-                            : () {
-                          setState(() {
-                            isGameStarted = true;
-                          });
-                          startGameLoop();
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.blue,
-                          foregroundColor: Colors.white,
-                        ),
-                        child: Text(isGameStarted ? 'Playing...' : 'Start Game'),
+                    ),
+                    ElevatedButton(
+                      onPressed: isGameStarted
+                          ? null
+                          : () {
+                        setState(() {
+                          isGameStarted = true;
+                        });
+                        startGameLoop();
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.black,
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                       ),
-                    ],
-                  ),
+                      child: Text(isGameStarted ? 'Playing...' : 'Start', style: const TextStyle(color: Colors.white)),
+                    ),
+                  ],
                 ),
               ),
               Expanded(
-                child: Center(
-                  child: Container(
-                    width: 300,
-                    height: 300,
-                    decoration: BoxDecoration(
-                      color: Colors.grey[200],
-                      border: Border.all(color: Colors.black),
-                    ),
-                    child: GridView.builder(
-                      physics: const NeverScrollableScrollPhysics(),
-                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: gridSize,
+                child: GestureDetector(
+                  onPanUpdate: handleSwipeUpdate,
+                  child: Center(
+                    child: Container(
+                      width: 320,
+                      height: 420,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        gradient: const LinearGradient(
+                          colors: [Color(0xFF1E1E1E), Color(0xFF2A2A2A)],
+                        ),
+                        boxShadow: [
+                          BoxShadow(color: Colors.black.withAlpha(120), blurRadius: 15, offset: const Offset(0, 8))
+                        ],
                       ),
-                      itemCount: gridSize * gridSize,
-                      itemBuilder: (context, index) {
-                        int x = index % gridSize;
-                        int y = index ~/ gridSize;
-                        Point point = Point(x, y);
+                      child: Padding(
+                        padding: const EdgeInsets.all(6),
+                        child: GridView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
+                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: gridSize,
+                          ),
+                          itemCount: gridSize * gridSize,
+                          itemBuilder: (context, index) {
+                            int x = index % gridSize;
+                            int y = index ~/ gridSize;
+                            Point point = Point(x, y);
 
-                        if (snake.contains(point)) {
-                          return Container(
-                            color: Colors.green,
-                            child: point == snake[0]
-                                ? const Center(
-                              child: Icon(
-                                Icons.circle,
-                                color: Colors.white,
-                                size: 10,
-                              ),
-                            )
-                                : null,
-                          );
-                        } else if (food == point) {
-                          return Container(
-                            color: Colors.red,
-                          );
-                        } else {
-                          return Container(
-                            color: Colors.grey[300],
-                            child: Container(
-                              margin: const EdgeInsets.all(1),
-                              color: Colors.white,
-                            ),
-                          );
-                        }
-                      },
+                            if (snake.contains(point)) {
+                              return Container(
+                                margin: const EdgeInsets.all(1),
+                                decoration: BoxDecoration(
+                                  color: point == snake[0] ? Colors.lightGreenAccent : Colors.green,
+                                  borderRadius: BorderRadius.circular(4),
+                                ),
+                              );
+                            } else if (food == point) {
+                              return Container(
+                                margin: const EdgeInsets.all(1),
+                                decoration: BoxDecoration(
+                                  color: Colors.redAccent,
+                                  borderRadius: BorderRadius.circular(6),
+                                ),
+                              );
+                            } else {
+                              return Container(
+                                margin: const EdgeInsets.all(1),
+                                decoration: BoxDecoration(
+                                  color: Colors.grey[800],
+                                  borderRadius: BorderRadius.circular(2),
+                                ),
+                              );
+                            }
+                          },
+                        ),
+                      ),
                     ),
                   ),
                 ),
               ),
-              if (isGameStarted)
-                Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Container(
-                    padding: const EdgeInsets.all(12),
-                    decoration: BoxDecoration(
-                      color: Colors.white.withAlpha(180),
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        _buildDirectionButton(Icons.arrow_upward, 'up'),
-                        const SizedBox(width: 8),
-                        _buildDirectionButton(Icons.arrow_downward, 'down'),
-                        const SizedBox(width: 8),
-                        _buildDirectionButton(Icons.arrow_back, 'left'),
-                        const SizedBox(width: 8),
-                        _buildDirectionButton(Icons.arrow_forward, 'right'),
-                      ],
-                    ),
-                  ),
-                ),
             ],
           ),
         ),
@@ -267,28 +265,8 @@ class _SnakeGameState extends State<SnakeGame> {
     );
   }
 
-  Widget _buildDirectionButton(IconData icon, String dir) {
-    return ElevatedButton(
-      onPressed: () {
-        setState(() {
-          if ((dir == 'up' && direction != 'down') ||
-              (dir == 'down' && direction != 'up') ||
-              (dir == 'left' && direction != 'right') ||
-              (dir == 'right' && direction != 'left')) {
-            direction = dir;
-          }
-        });
-      },
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.blue,
-        foregroundColor: Colors.white,
-      ),
-      child: Icon(icon),
-    );
-  }
-
   void startGameLoop() {
-    Future.delayed(const Duration(milliseconds: 200), () {
+    Future.delayed(Duration(milliseconds: gameSpeed), () {
       if (isGameStarted && mounted) {
         moveSnake();
         startGameLoop();
