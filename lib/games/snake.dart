@@ -219,6 +219,7 @@ class _SnakeGameState extends State<SnakeGame> {
                           physics: const NeverScrollableScrollPhysics(),
                           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: gridSize,
+                            childAspectRatio: 320 / 420,
                           ),
                           itemCount: gridSize * gridSize,
                           itemBuilder: (context, index) {
