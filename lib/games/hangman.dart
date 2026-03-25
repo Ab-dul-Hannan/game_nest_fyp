@@ -154,7 +154,7 @@ class _HangmanGameState extends State<HangmanGame> {
               children: [
                 Container(
                   width: 200,
-                  height: 200,
+                  height: 160,
                   margin: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
                     color: Colors.white.withOpacity(0.7),
@@ -162,10 +162,9 @@ class _HangmanGameState extends State<HangmanGame> {
                   ),
                   child: CustomPaint(
                     painter: HangmanPainter(wrongGuesses),
-                    size: const Size(200, 200),
+                    size: const Size(160, 160),
                   ),
                 ),
-
                 Container(
                   margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
@@ -176,60 +175,32 @@ class _HangmanGameState extends State<HangmanGame> {
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 2),
-                        child: Icon(
-                          showHint ? Icons.lightbulb : Icons.lightbulb_outline,
-                          color: Colors.amber,
-                          size: 24,
-                        ),
+                      const Padding(
+                        padding: EdgeInsets.only(top: 2),
+                        child: Icon(Icons.lightbulb_outline, color: Colors.amber, size: 24),
                       ),
                       const SizedBox(width: 12),
                       Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(
-                              'Hint:',
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.amber[800],
-                              ),
-                            ),
-                            const SizedBox(height: 4),
-                            Text(
-                              showHint ? selectedHint : 'Tap the lightbulb to reveal a hint!',
-                              style: const TextStyle(
-                                fontSize: 14,
-                                fontStyle: FontStyle.italic,
-                              ),
-                              softWrap: true,
-                            ),
-                          ],
+                        child: Text(
+                          showHint ? selectedHint : 'Tap the lightbulb to reveal a hint!',
+                          style: const TextStyle(fontSize: 14, fontStyle: FontStyle.italic),
                         ),
                       ),
                       IconButton(
                         icon: Icon(
                           showHint ? Icons.visibility_off : Icons.lightbulb,
                           color: Colors.amber,
-                          size: 24,
                         ),
                         onPressed: () {
                           setState(() {
                             showHint = !showHint;
                           });
                         },
-                        padding: EdgeInsets.zero,
-                        constraints: const BoxConstraints(),
                       ),
                     ],
                   ),
                 ),
-
                 const SizedBox(height: 8),
-
                 Container(
                   margin: const EdgeInsets.all(16),
                   padding: const EdgeInsets.all(16),
@@ -264,7 +235,6 @@ class _HangmanGameState extends State<HangmanGame> {
                     }).toList(),
                   ),
                 ),
-
                 Container(
                   margin: const EdgeInsets.symmetric(vertical: 8),
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -281,15 +251,12 @@ class _HangmanGameState extends State<HangmanGame> {
                     ),
                   ),
                 ),
-
                 const SizedBox(height: 20),
-
                 Expanded(
                   child: Container(
                     padding: const EdgeInsets.all(8),
                     child: GridView.count(
                       crossAxisCount: 7,
-                      padding: const EdgeInsets.all(8),
                       crossAxisSpacing: 4,
                       mainAxisSpacing: 4,
                       childAspectRatio: 1.2,
