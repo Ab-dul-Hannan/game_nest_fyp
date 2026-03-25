@@ -12,8 +12,6 @@ class _HangmanGameState extends State<HangmanGame> {
   final List<Map<String, String>> wordsWithHints = [
     {'word': 'FLUTTER', 'hint': 'Google\'s UI toolkit for building natively compiled applications'},
     {'word': 'DART', 'hint': 'Programming language optimized for building mobile apps'},
-    {'word': 'PROGRAMMING', 'hint': 'Process of creating computer software'},
-    {'word': 'DEVELOPER', 'hint': 'Person who creates software applications'},
     {'word': 'ANDROID', 'hint': 'Mobile operating system by Google'},
     {'word': 'PYTHON', 'hint': 'Programming language named after a snake'},
     {'word': 'JAVA', 'hint': 'Programming language with a coffee cup logo'},
@@ -21,7 +19,6 @@ class _HangmanGameState extends State<HangmanGame> {
     {'word': 'KOTLIN', 'hint': 'Modern programming language that runs on JVM'},
     {'word': 'RUST', 'hint': 'Systems programming language focused on safety'},
     {'word': 'GO', 'hint': 'Programming language created at Google, also called Golang'},
-    {'word': 'TYPESCRIPT', 'hint': 'Typed superset of JavaScript'}
   ];
 
   late String selectedWord;
@@ -312,31 +309,31 @@ class HangmanPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
       ..color = Colors.black
-      ..strokeWidth = 3
+      ..strokeWidth = 2
       ..style = PaintingStyle.stroke;
 
-    canvas.drawLine(Offset(20, size.height - 20), Offset(80, size.height - 20), paint);
-    canvas.drawLine(Offset(50, size.height - 20), Offset(50, 20), paint);
-    canvas.drawLine(Offset(50, 20), Offset(150, 20), paint);
-    canvas.drawLine(Offset(150, 20), Offset(150, 50), paint);
+    canvas.drawLine(Offset(15, size.height - 15), Offset(45, size.height - 15), paint);
+    canvas.drawLine(Offset(30, size.height - 15), Offset(30, 20), paint);
+    canvas.drawLine(Offset(30, 20), Offset(120, 20), paint);
+    canvas.drawLine(Offset(120, 20), Offset(120, 40), paint);
 
     if (wrongGuesses >= 1) {
-      canvas.drawCircle(Offset(150, 80), 15, paint);
+      canvas.drawCircle(Offset(120, 55), 10, paint);
     }
     if (wrongGuesses >= 2) {
-      canvas.drawLine(Offset(150, 95), Offset(150, 150), paint);
+      canvas.drawLine(Offset(120, 65), Offset(120, 95), paint);
     }
     if (wrongGuesses >= 3) {
-      canvas.drawLine(Offset(150, 110), Offset(130, 130), paint);
+      canvas.drawLine(Offset(120, 75), Offset(60, 85), paint);
     }
     if (wrongGuesses >= 4) {
-      canvas.drawLine(Offset(150, 110), Offset(170, 130), paint);
+      canvas.drawLine(Offset(120, 75), Offset(120, 85), paint);
     }
     if (wrongGuesses >= 5) {
-      canvas.drawLine(Offset(150, 150), Offset(130, 180), paint);
+      canvas.drawLine(Offset(120, 95), Offset(60, 110), paint);
     }
     if (wrongGuesses >= 6) {
-      canvas.drawLine(Offset(150, 150), Offset(170, 180), paint);
+      canvas.drawLine(Offset(120, 95), Offset(120, 110), paint);
     }
   }
 
