@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'games/tic_tac_toe.dart';
 import 'games/memory_match.dart';
 import 'games/connect_four.dart';
-import 'games/snake.dart';
 import 'games/hangman.dart';
 import 'games/personalpuzzle.dart';
+import 'games/dots_and_boxes.dart';
 
 class GameNestHome extends StatelessWidget {
   const GameNestHome({super.key});
@@ -94,15 +94,6 @@ class GameNestHome extends StatelessWidget {
                       ),
                     ),
                     GameCard(
-                      title: 'Snake',
-                      icon: Icons.bolt,
-                      color: Colors.purple,
-                      onTap: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const SnakeGame()),
-                      ),
-                    ),
-                    GameCard(
                       title: 'Hangman',
                       icon: Icons.abc,
                       color: Colors.red,
@@ -119,6 +110,17 @@ class GameNestHome extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                           builder: (context) => const PersonalPuzzleGame(),
+                        ),
+                      ),
+                    ),
+                    GameCard(
+                      title: 'Dots & Boxes',
+                      icon: Icons.grid_on,
+                      color: Colors.purple,
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const DotsAndBoxesGame(),
                         ),
                       ),
                     ),
