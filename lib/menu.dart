@@ -5,6 +5,7 @@ import 'games/connect_four.dart';
 import 'games/hangman.dart';
 import 'games/personalpuzzle.dart';
 import 'games/dots_and_boxes.dart';
+import 'games/match_mania.dart';
 
 class GameNestHome extends StatelessWidget {
   const GameNestHome({super.key});
@@ -122,6 +123,15 @@ class GameNestHome extends StatelessWidget {
                         MaterialPageRoute(
                           builder: (context) => const DotsAndBoxesGame(),
                         ),
+                      ),
+                    ),
+                    GameCard(
+                      title: 'Match Mania',
+                      icon: Icons.casino,
+                      color: Colors.pink,
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const MatchManiaGame()),
                       ),
                     ),
                   ],
