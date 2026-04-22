@@ -333,14 +333,16 @@ class _PersonalPuzzleGameState extends State<PersonalPuzzleGame> {
                 ),
               ),
               const SizedBox(height: 20),
-              const Text(
-                "Tap tiles to move them",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
+              Container(
+                margin: const EdgeInsets.only(bottom: 20),
+                child: Text(
+                  "👆 Tap tiles adjacent to empty space to move them! 👆",
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Colors.black.withOpacity(0.9),
+                  ),
                 ),
               ),
-              const SizedBox(height: 20),
             ],
           ),
         ),
