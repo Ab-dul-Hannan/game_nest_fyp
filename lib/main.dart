@@ -44,7 +44,7 @@ class MainMenuScreen extends StatelessWidget {
             children: [
               const SizedBox(height: 100),
 
-              /// 🎮 Games Button
+              /// Games Button
               ElevatedButton(
                 onPressed: () {
                   Navigator.push(
@@ -76,7 +76,7 @@ class MainMenuScreen extends StatelessWidget {
 
               const SizedBox(height: 30),
 
-              /// ⚙️ Settings Button
+              /// Settings Button
               ElevatedButton(
                 onPressed: () {
                   Navigator.push(
